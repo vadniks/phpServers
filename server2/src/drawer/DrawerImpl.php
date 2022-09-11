@@ -21,10 +21,16 @@ class DrawerImpl {
 
     public function __construct(int $encoded) {
         $this->shape = ($encoded & self::SHAPE_MASK[0]) >> self::SHAPE_MASK[1];
-        $this->color = self::COLORS[($encoded & self::COLOR_MASK[0]) >> self::COLOR_MASK[1]];
+        $color = ($encoded & self::COLOR_MASK[0]) >> self::COLOR_MASK[1];
         $this->width = (($encoded & self::WIDTH_MASK[0]) >> self::WIDTH_MASK[1]) * 20;
         $this->height = (($encoded & self::HEIGHT_MASK[0]) >> self::HEIGHT_MASK[1]) * 20;
-        $this->paint();
+
+        if ($this->shape > 0b10 || $color > 0b10)
+            echo 'Wrong encoding';
+        else {
+            $this->color = self::COLORS[$color];
+            $this->paint();
+        }
     }
 
     private function paint() {
@@ -48,7 +54,7 @@ class DrawerImpl {
                     points="$this->width,$this->height 0,0 0,$this->height" 
                     fill="$this->color"/>
             C,
-            default => throw new Exception(),
+            default => 'Not found',
         };
         echo <<<D
         <svg 
