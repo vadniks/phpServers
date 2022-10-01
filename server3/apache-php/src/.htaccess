@@ -1,6 +1,11 @@
 <Files admin.php>
-SetEnvIf Cookie auth=.* PASS=1
-Order deny,allow
-Deny from all
-Allow from env=PASS
+    AuthName "Login required"
+    AuthType Basic
+    Require valid-user
+</Files>
+<Files catalogue.php>
+    Require all granted
+</Files>
+<Files view.php>
+    Require all granted
 </Files>
