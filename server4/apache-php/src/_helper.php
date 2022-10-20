@@ -10,12 +10,15 @@
         id = 'ID',
         title = 'title',
         description = 'description',
-        cost = 'cost';
+        cost = 'cost',
+        phpInput = 'php://input',
+        method = 'REQUEST_METHOD',
+        methods = ['GET', 'POST', 'PUT', 'DELETE'];
 
-    function openMysqli(): mysqli { return new mysqli(
-        host, dbUser, password, db
-    ); }
+    function openMysqli(): mysqli
+    { return new mysqli(host, dbUser, password, db); }
 
     function success() { echo 'Success'; }
     function error() { echo 'Error'; }
+    function defineArgs(&$result) { parse_str(file_get_contents(phpInput),$result); }
 ?>

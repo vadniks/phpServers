@@ -1,17 +1,15 @@
-
 <?php require_once '../_helper.php';
-    const actions = ['create', 'read', 'update', 'delete'];
-    const param = 'action';
     const columns = ['ID', 'name', 'password'];
     define("_id", strtolower(columns[0]));
+    define('requestMethod', $_SERVER[method]);
 
-    if (array_key_exists(param, $_GET) && $_GET[param] === actions[1]) read();
-    else if (array_key_exists(param, $_POST)) switch ($_POST[param]) {
-        case actions[0]: create(); break;
-        case actions[2]: update(); break;
-        case actions[3]: delete(); break;
+    switch (requestMethod) {
+        case methods[0]: read(); break;
+        case methods[1]: create(); break;
+        case methods[2]: update(); break;
+        case methods[3]: delete(); break;
         default: error(); break;
-    } else error();
+    }
 
     function create() {
         if (array_key_exists(_id, $_POST)) $id = $_POST[_id];
@@ -60,7 +58,9 @@
 
         if (!$statement->execute()) { error(); return; }
         $result = $statement->get_result()->fetch_assoc();
+        if ($result == null) { error(); return; }
 
+        header('Content-Type: application/json; charset=utf-8');
         echo sprintf('{"%s": %d, "%s": "%s", "%s": "%s"}',
             columns[0], $result[columns[0]],
             columns[1], $result[columns[1]],
@@ -70,11 +70,12 @@
     }
 
     function update() {
-        if (array_key_exists(_id, $_POST)) $id = $_POST[_id];
+        defineArgs($args);
+        if (array_key_exists(_id, $args)) $id = $args[_id];
         if (!isset($id)) { error(); return; }
 
-        if (array_key_exists(columns[1], $_POST)) $name = $_POST[columns[1]];
-        if (array_key_exists(columns[2], $_POST)) $password = $_POST[columns[2]];
+        if (array_key_exists(columns[1], $args)) $name = $args[columns[1]];
+        if (array_key_exists(columns[2], $args)) $password = $args[columns[2]];
 
         if (isset($name)) {
             $which = columns[1];
@@ -96,7 +97,8 @@
     }
 
     function delete() {
-        if (array_key_exists(_id, $_POST)) $id = $_POST[_id];
+        defineArgs($args);
+        if (array_key_exists(_id, $args)) $id = $args[_id];
         if (!isset($id)) { error(); return; }
 
         $mysqli = openMysqli();

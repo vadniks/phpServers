@@ -1,13 +1,10 @@
-
 <?php require_once '../_helper.php';
-    const sum = 'sum';
-    const sale = 'sale';
-    const param = 'action';
     const multiplier = 'multiplier';
     const mode = 'mode';
+    define('requestMethod', $_SERVER[method]);
 
-    if (array_key_exists(param, $_GET) && $_GET[param] === sum) sum();
-    else if (array_key_exists(param, $_POST) && $_POST[param] === sale) sale();
+    if (requestMethod === methods[0]) sum();
+    else if (requestMethod === methods[1]) sale();
     else error();
 
     function sum() {
