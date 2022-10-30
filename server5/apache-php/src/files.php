@@ -1,4 +1,4 @@
-<?php require '../vendor/autoload.php'; require_once '_helper.php';
+<?php require '../vendor/autoload.php'; require_once '_helper.php'; use MongoDB\BSON\Binary;
     const dir = '/var/www/files/';
     define('requestMethod', $_SERVER[method]);
     const file = 'file',
@@ -34,7 +34,7 @@
         if ($collection->insertOne([
             id => $sid,
             name => $fileName,
-            file => $content
+            file => new Binary($content, Binary::TYPE_GENERIC)
         ])->getInsertedCount() !== 1)
         { error(); return; }
 
@@ -52,7 +52,7 @@
 
         $result = $collection->findOne([id => session_id()]);
         $fileName = $result[name];
-        $content = $result[file];
+        $content = $result[file]->getData();
         error_log(print_r('File ' . $fileName . ' uploaded by ' . $result[id] . ' Content: ' . $content, TRUE));
 
         $filePath = dir . $fileName;
