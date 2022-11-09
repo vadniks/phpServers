@@ -1,0 +1,29 @@
+<Files admin.php>
+    AuthName "Login required"
+    AuthType Basic
+    Require valid-user
+</Files>
+<Files catalogue.php>
+    Require all granted
+</Files>
+<Files view.php>
+    Require all granted
+</Files>
+<Files test.php>
+    Require all granted
+</Files>
+<Files session.php>
+    Require all granted
+</Files>
+<Files pdf.php>
+    Require all granted
+</Files>
+<Files files.php>
+    Require all granted
+</Files>
+<Files graphs.php>
+    Require all granted
+</Files>
+<Files statistics.php>
+    Require all granted
+</Files>
