@@ -43,7 +43,7 @@
     function error() { echo 'Error'; http_response_code(400); }
     function defineArgs(&$result) { parse_str(file_get_contents(phpInput),$result); }
 
-    function defineDarkTheme() { session_start(); if (isset($_SESSION[theme]) && $_SESSION[theme]) echo <<<iDontCare
+    function defineDarkTheme() { session_start(); if (isset($_SESSION[theme]) && $_SESSION[theme]) echo <<<A
         <style>
             body { background-color: black; }
             span { color: white; }
@@ -52,7 +52,7 @@
             input { background-color: black; color: white; }
             form { color: white; }
         </style>
-    iDontCare; }
+    A; }
 
     function method(): ?string { return $_SERVER[method]; }
     function uri(): ?string { return $_SERVER[uri]; }

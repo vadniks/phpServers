@@ -1,13 +1,11 @@
-<?php require_once '../_helper.php'; require_once 'AbsRequestHandler.php';
+<?php use JetBrains\PhpStorm\Pure; require_once 'AbsRequestHandler.php'; require_once '../_helper.php';
 
     abstract class AbsPersistentRequestHandler extends AbsRequestHandler {
-        protected mysqli $mysqli;
+        protected AbsRepo $repo;
 
-        public function __construct(array $arguments) {
+        #[Pure] public function __construct(array $arguments, AbsRepo $repo) {
             parent::__construct($arguments);
-            $this->mysqli = openMysqli();
+            $this->repo = $repo;
         }
-
-        public function __destruct() { $this->mysqli->close(); }
     }
 ?>
