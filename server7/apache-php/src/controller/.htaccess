@@ -1,0 +1,5 @@
+<Files RestrictedController.php>
+    AuthName "Login required"
+    AuthType Basic
+    Require valid-user
+</Files>

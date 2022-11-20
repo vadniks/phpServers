@@ -1,0 +1,15 @@
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    DirectoryIndex /controller/_loader.php
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^((view/admin)|(impl/admin))$ /controller/RestrictedController.php [QSA,L]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(?!(view/admin)|(impl/admin)$) /controller/loader.php [QSA,L]
+</IfModule>
